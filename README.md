@@ -15,16 +15,15 @@ Of course, ECS and kubernetes are so different. Many features on kubernetes are 
 
 Some AWS official projects to check out:
 
-ecs-cli: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html
-
-aws-cli ecs command (Raw API access): http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI.html
+- [ecs-cli](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_installation.html)
+- [aws-cli ecs command](http://docs.aws.amazon.com/cli/latest/reference/ecs/)
 
 ## Usage
 
 #### Cluster
 List nodes:
 ```
-% ecsctl get clusters          
+% ecsctl get clusters
 NAME     STATUS      RUNNING    PENDING    INSTANCE COUNT
 default  ACTIVE            3          0                 2
 ```
