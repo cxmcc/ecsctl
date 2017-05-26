@@ -92,7 +92,7 @@ TASK ID                               STATUS    TASK DEFINITION    AGE
 Fri May 26 00:13:24 PDT 2017
 
 % ecsctl exec -it 42f052c4-80e9-411d-bea2-407b0b4a4b0b /bin/bash
-#/ (interactive)
+root@container:/# (interactive)
 ```
 
 #### Configs
