@@ -16,7 +16,7 @@ install_requires = [
 
 setup(
     name='ecsctl',
-    version='20170525',
+    version='20170526',
     description='kubectl-style command line client for AWS ECS.',
     author='Xiuming Chen',
     author_email='cc@cxm.cc',
