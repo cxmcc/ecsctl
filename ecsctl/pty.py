@@ -7,7 +7,7 @@ from . import display
 class Pty:
     def __init__(self, bw=None, task=None, command=(),
                  port=2375, stdin=False, tty=False, cluster='default',
-                 container=None):
+                 api_version=None, container=None):
         self.bw = bw
         self.task = task
         self.command = command
@@ -16,6 +16,7 @@ class Pty:
         self.tty = tty
         self.cluster = cluster
         self.container = container
+        self.api_version = api_version
 
     def get_ecs_hostname_of_task(self):
         info = self.bw.describe_task(self.task, cluster=self.cluster)
@@ -49,7 +50,10 @@ class Pty:
         else:
             container = self.container
         docker_url = '%s:%d' % (hostname, self.port)
-        client = docker.Client(docker_url)
+        client = docker.APIClient(
+            docker_url,
+            version=self.api_version,
+        )
         container_id = self.find_container_id(client, container)
         resp = client.exec_create(container_id, self.command, stdin=self.stdin, tty=self.tty)
         exec_id = resp['Id']

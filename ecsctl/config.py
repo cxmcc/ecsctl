@@ -13,6 +13,7 @@ CONFIG_FILE = os.path.join(APP_DIR, 'config')
 default_config = {
     'cluster': 'default',
     'docker_port': 2375,
+    'docker_api_version': '1.24',
 }
 
 def get_config_parser():

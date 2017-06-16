@@ -187,18 +187,23 @@ def undrain(ctx, node, cluster):
 @click.option('-t', '--tty', is_flag=True, default=False, show_default=True)
 @click.option('--container', default=None)
 @click.option('--docker-port', type=int)
+@click.option('--docker-api-version')
 @click.argument('task', required=True)
 @click.argument('command', nargs=-1)
 @click.pass_context
 def exec_command(ctx, task, command, stdin, tty, cluster, docker_port,
-                 container):
+                 docker_api_version, container):
     if not cluster:
         cluster = ctx.obj['cluster']
     if not docker_port:
         docker_port = int(ctx.obj['docker_port'])
+    if not docker_api_version:
+        docker_api_version = ctx.obj['docker_api_version']
     bw = ctx.obj['bw']
     pty = Pty(bw=bw, task=task, command=command, cluster=cluster,
-              tty=tty, stdin=stdin, port=docker_port, container=container)
+              tty=tty, stdin=stdin, port=docker_port,
+              api_version=docker_api_version,
+              container=container)
     pty.exec_command()
 
 # get

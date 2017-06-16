@@ -6,7 +6,7 @@ install_requires = [
     'boto3',
     'click',
     'configparser',
-    'docker-py',
+    'docker',
     'dockerpty',
     'jsonpath',
     'tabulate',
