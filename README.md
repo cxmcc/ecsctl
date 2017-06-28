@@ -1,5 +1,5 @@
 # ecsctl
-kubectl-style command line tool for AWS Elastic Container Services (ECS)
+kubectl-style command line tool for AWS EC2 Container Services (ECS)
 
 ## Installation
 ```bash
