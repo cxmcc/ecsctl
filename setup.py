@@ -22,7 +22,7 @@ classifiers = [
 
 setup(
     name='ecsctl',
-    version='20170526',
+    version='20170812',
     description='kubectl-style command line client for AWS ECS.',
     author='Xiuming Chen',
     author_email='cc@cxm.cc',
