@@ -3,15 +3,15 @@
 from setuptools import setup
 
 install_requires = [
-    'boto3',
-    'click',
-    'configparser',
-    'docker',
-    'dockerpty',
-    'jsonpath',
-    'tabulate',
-    'humanize',
-    'pytz',
+    'boto3>=1.4.5',
+    'click>=6.7',
+    'configparser>=3.5.0',
+    'docker>=2.4.2',
+    'dockerpty>=0.4.1',
+    'jsonpath>=0.75',
+    'tabulate>=0.7.7',
+    'humanize>=0.5.1',
+    'pytz>=2017.2',
 ]
 
 classifiers = [
