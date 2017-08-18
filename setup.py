@@ -20,10 +20,14 @@ classifiers = [
     'Topic :: System :: Clustering',
 ]
 
+with open('README.rst', 'r') as f:
+    long_description = f.read()
+
 setup(
     name='ecsctl',
-    version='20170812',
+    version='20170819',
     description='kubectl-style command line client for AWS ECS.',
+    long_description=long_description,
     author='Xiuming Chen',
     author_email='cc@cxm.cc',
     url='https://github.com/cxmcc/ecsctl',
