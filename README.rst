@@ -147,7 +147,11 @@ for more information.
 
    ::
 
-       iptables --insert INPUT 1 --in-interface docker+ --protocol tcp --destination-port MYDOCKERPORT --jump DROP
+       iptables --insert INPUT 1 \
+                --in-interface docker+ \
+                --protocol tcp \
+                --destination-port MYDOCKERPORT \
+                --jump DROP
 
 Configs
 ^^^^^^^
