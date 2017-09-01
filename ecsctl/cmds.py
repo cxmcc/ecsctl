@@ -321,7 +321,7 @@ def get_task(ctx, cluster, sort_by):
     click.echo(output)
 
 @get.command(name='task-definition-family')
-@click.option('--family-prefix', default='')
+@click.option('--family-prefix', default=None)
 @click.option('--status', type=click.Choice(TASK_DEFINITION_STATUS), default='ACTIVE')
 @click.pass_context
 def get_task_definition_family(ctx, status, family_prefix):
@@ -334,7 +334,7 @@ def get_task_definition_family(ctx, status, family_prefix):
         click.echo(r)
 
 @get.command(name='task-definition')
-@click.option('--family-prefix', default='')
+@click.option('--family-prefix', default=None)
 @click.option('--status', type=click.Choice(TASK_DEFINITION_STATUS), default='ACTIVE')
 @click.pass_context
 def get_task_definition(ctx, status, family_prefix):

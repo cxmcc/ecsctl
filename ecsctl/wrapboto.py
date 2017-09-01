@@ -144,7 +144,9 @@ class BotoWrapper:
     def all_task_definition_families(self, family_prefix=None, status='ALL'):
         paginator = self.ecs_client.get_paginator('list_task_definition_families')
         out = []
-        params = dict(familyPrefix=family_prefix, status=status)
+        params = dict(status=status)
+        if family_prefix is not None:
+            params['familyPrefix'] = family_prefix
         for page in paginator.paginate(**params):
             out += page['families']
         return out
@@ -152,7 +154,9 @@ class BotoWrapper:
     def all_task_definitions(self, family_prefix=None, status='ALL'):
         paginator = self.ecs_client.get_paginator('list_task_definitions')
         out = []
-        params = dict(familyPrefix=family_prefix, status=status)
+        params = dict(status=status)
+        if family_prefix is not None:
+            params['familyPrefix'] = family_prefix
         for page in paginator.paginate(**params):
             out += page['taskDefinitionArns']
         return out
