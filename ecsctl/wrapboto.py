@@ -218,3 +218,10 @@ class BotoWrapper:
             desiredCount=count,
         )
         return resp
+
+    def strip_task_def_data(self, info):
+        info = info.copy()
+        del info['status']
+        del info['taskDefinitionArn']
+        del info['revision']
+        return info

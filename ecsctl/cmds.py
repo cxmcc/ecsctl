@@ -123,13 +123,16 @@ def describe_node(ctx, node, cluster):
 
 @describe.command(name='task-definition')
 @click.option('--cluster')
+@click.option('--data-only', is_flag=True, default=False)
 @click.argument('task-definition', required=True)
 @click.pass_context
-def describe_task_definitions(ctx, task_definition, cluster):
+def describe_task_definitions(ctx, task_definition, cluster, data_only):
     if not cluster:
         cluster = ctx.obj['cluster']
     bw = ctx.obj['bw']
     info = bw.describe_task_definition(task_definition, cluster=cluster)
+    if data_only:
+        info = bw.strip_task_def_data(info)
     output = display.de_unicode(info)
     click.echo(output)
 
