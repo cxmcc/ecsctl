@@ -90,6 +90,14 @@ def delete_cluster(ctx, cluster):
     resp = bw.delete_cluster(cluster)
     click.echo(resp['clusterArn'])
 
+@delete.command(name='task-definition')
+@click.argument('task-definition', required=True)
+@click.pass_context
+def delete_cluster(ctx, task_definition):
+    bw = ctx.obj['bw']
+    resp = bw.deregister_task_definition(task_definition)
+    click.echo(resp['taskDefinitionArn'])
+
 # describe
 
 @cli.group(cls=AliasedGroup,

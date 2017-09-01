@@ -116,6 +116,12 @@ class BotoWrapper:
         )
         return resp
 
+    def deregister_task_definition(self, task_definition):
+        resp = self.ecs_client.deregister_task_definition(
+            taskDefinition=task_definition,
+        )
+        return resp['taskDefinition']
+
     def all_tasks(self, cluster='default'):
         paginator = self.ecs_client.get_paginator('list_tasks')
         out = []
