@@ -24,10 +24,6 @@ def cli(ctx):
     ctx.obj['bw'] = wrapboto.BotoWrapper()
 
 
-def cmp_jsonpath(path):
-    return lambda i, j: cmp(jp(i, path), jp(j, path))
-
-
 @cli.group(short_help='Manage config file.')
 def config():
     pass
@@ -236,7 +232,7 @@ def get_clusters(ctx, sort_by):
     bw = ctx.obj['bw']
     records = bw.get_clusters()
     if sort_by:
-        records.sort(cmp=cmp_jsonpath(sort_by))
+        records.sort(key=lambda r: jp(r, sort_by))
     out = []
     for r in records:
         status = r['status']
@@ -261,7 +257,7 @@ def get_services(ctx, cluster, sort_by):
     bw = ctx.obj['bw']
     records = bw.get_services(cluster=cluster)
     if sort_by:
-        records.sort(cmp=cmp_jsonpath(sort_by))
+        records.sort(key=lambda r: jp(r, sort_by))
     out = []
     now = datetime.datetime.now(pytz.utc)
     for r in records:
@@ -291,7 +287,7 @@ def get_container_instance(ctx, cluster, sort_by):
     bw = ctx.obj['bw']
     records = bw.get_container_instances(cluster=cluster)
     if sort_by:
-        records.sort(cmp=cmp_jsonpath(sort_by))
+        records.sort(key=lambda r: jp(r, sort_by))
     out = []
     for r in records:
         status = r['status']
@@ -316,7 +312,7 @@ def get_task(ctx, cluster, sort_by):
     bw = ctx.obj['bw']
     records = bw.get_tasks(cluster=cluster)
     if sort_by:
-        records.sort(cmp=cmp_jsonpath(sort_by))
+        records.sort(key=lambda r: jp(r, sort_by))
     out = []
     now = datetime.datetime.now(pytz.utc)
     for r in records:
