@@ -1,7 +1,7 @@
 ecsctl
 ======
 
-kubectl-style command line tool for AWS EC2 Container Services (ECS)
+kubectl-style command line tool for AWS EC2 Container Service (ECS)
 
 .. image:: https://img.shields.io/pypi/v/ecsctl.svg
     :target: https://pypi.python.org/pypi/ecsctl
