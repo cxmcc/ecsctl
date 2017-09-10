@@ -16,6 +16,7 @@ default_config = {
     'docker_api_version': '1.24',
 }
 
+
 def get_config_parser():
     parser = RawConfigParser()
     parser.read([CONFIG_FILE])
@@ -31,6 +32,7 @@ def read_config():
         for key, value in parser.items(section):
             rv[key] = value
     return rv
+
 
 def update_config(key, value):
     parser = get_config_parser()

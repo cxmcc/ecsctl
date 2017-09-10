@@ -1,6 +1,7 @@
 
 import click
 
+
 class AliasedGroup(click.Group):
     def get_command(self, ctx, cmd_name):
         rv = click.Group.get_command(self, ctx, cmd_name)
@@ -25,4 +26,3 @@ class AliasedGroup(click.Group):
             rv = click.Group.get_command(self, ctx, mapping[cmd_name])
             if rv is not None:
                 return rv
-

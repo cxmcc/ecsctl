@@ -84,7 +84,6 @@ class BotoWrapper:
             out += resp['clusters']
         return out
 
-
     def describe_cluster(self, cluster):
         resp = self.ecs_client.describe_clusters(
             clusters=[cluster],
@@ -142,7 +141,9 @@ class BotoWrapper:
         return out
 
     def all_task_definition_families(self, family_prefix=None, status='ALL'):
-        paginator = self.ecs_client.get_paginator('list_task_definition_families')
+        paginator = self.ecs_client.get_paginator(
+            'list_task_definition_families'
+        )
         out = []
         params = dict(status=status)
         if family_prefix is not None:
@@ -201,8 +202,11 @@ class BotoWrapper:
             desiredCount=count,
         )
 
-    def stop_task(self, task, cluster='default', reason='Stopped with ecsctl.'):
-        resp = self.ecs_client.stop_task(task=task, cluster=cluster, reason=reason)
+    def stop_task(self, task, cluster='default',
+                  reason='Stopped with ecsctl.'):
+        resp = self.ecs_client.stop_task(
+            task=task, cluster=cluster, reason=reason
+        )
         return resp
 
     def drain_node(self, node, cluster='default'):

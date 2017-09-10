@@ -1,7 +1,6 @@
 
 import docker
 import dockerpty
-from . import display
 
 
 class Pty:
@@ -55,6 +54,8 @@ class Pty:
             version=self.api_version,
         )
         container_id = self.find_container_id(client, container)
-        resp = client.exec_create(container_id, self.command, stdin=self.stdin, tty=self.tty)
+        resp = client.exec_create(
+            container_id, self.command, stdin=self.stdin, tty=self.tty
+        )
         exec_id = resp['Id']
         dockerpty.start_exec(client, exec_id, interactive=self.stdin)
