@@ -3,6 +3,10 @@ ecsctl
 
 kubectl-style command line tool for AWS EC2 Container Services (ECS)
 
+.. image:: https://travis-ci.org/cxmcc/ecsctl.svg?branch=master
+    :target: https://travis-ci.org/cxmcc/ecsctl
+    :alt: travis-ci
+
 Installation
 ------------
 
