@@ -161,7 +161,7 @@ def describe_tasks(ctx, task, cluster):
 @click.pass_context
 def describe_cluster(ctx, cluster):
     bw = ctx.obj['bw']
-    info = bw.wrapboto.describe_cluster(cluster)
+    info = bw.describe_cluster(cluster)
     output = display.de_unicode(info)
     click.echo(output)
 
