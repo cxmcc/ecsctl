@@ -28,7 +28,7 @@ class Pty:
         )
         ec2_instance_id = node_info['ec2InstanceId']
         ec2_info = self.bw.describe_instance(ec2_instance_id)
-        return first_container_name, ec2_info['PrivateDnsName']
+        return first_container_name, ec2_info['PrivateIpAddress']
 
     def find_container_id(self, client, container_name):
         containers = client.containers()
