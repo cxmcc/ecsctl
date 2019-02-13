@@ -177,30 +177,32 @@ class BotoWrapper:
         )
         return resp['taskDefinition']
 
-    def run(self, name=None, cluster='default', command=(),
-            image=None, cpu=1024, memory=2048, count=1):
-        task_def_family = name
-        container_name = name
-        service_name = '%s-svc' % name
-        container_definition = {
-            'name': container_name,
-            'image': image,
-            'cpu': cpu,
-            'memory': memory,
-        }
-        if command:
-            container_definition['command'] = 'command'
-        resp = self.ecs_client.register_task_definition(
-            family=task_def_family,
-            containerDefinitions=[container_definition],
+    def run(self, task_definition, cluster='default'):
+        resp = self.ecs_client.describe_task_definition(
+            taskDefinition=task_definition,
         )
         task_def_arn = resp['taskDefinition']['taskDefinitionArn']
-        resp = self.ecs_client.create_service(
+        name = resp['taskDefinition']['containerDefinitions'][0]['name']
+        print task_def_arn
+        overrides = {
+                'containerOverrides': [
+                    {
+                        'name': name,
+                        'command': [
+                            'sleep', '43200'
+                            ]
+                        }
+                    ]
+                }
+
+        resp = self.ecs_client.run_task(
             cluster=cluster,
-            serviceName=service_name,
             taskDefinition=task_def_arn,
-            desiredCount=count,
+            overrides=overrides
         )
+        if not resp['tasks']:
+            raise Exception('Cant run task. Not enough resources in cluster?')
+        print resp['tasks'][0]['taskArn']
 
     def stop_task(self, task, cluster='default',
                   reason='Stopped with ecsctl.'):

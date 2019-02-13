@@ -132,33 +132,11 @@ Run docker exec on containers (Requires customizing docker daemon to listen on i
     TASK ID                               STATUS    TASK DEFINITION    AGE
     42f052c4-80e9-411d-bea2-407b0b4a4b0b  PENDING   mycontainer:1      2 minutes ago
 
-    % ecsctl exec 42f052c4-80e9-411d-bea2-407b0b4a4b0b date
+    % ecsctl ssh 42f052c4-80e9-411d-bea2-407b0b4a4b0b date
     Fri May 26 00:13:24 PDT 2017
 
-    % ecsctl exec -it 42f052c4-80e9-411d-bea2-407b0b4a4b0b /bin/bash
+    % ecsctl ssh 42f052c4-80e9-411d-bea2-407b0b4a4b0b /bin/bash
     root@container:/# (interactive)
-
-Configure docker daemon to allow ``ecsctl exec``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-1. Let docker daemon listen on TCP ports (required)
-
-Add options like ``-H tcp://0.0.0.0:MYDOCKERPORT`` or environment
-variable ``DOCKER_HOST=tcp://0.0.0.0:MYDOCKERPORT`` to configure docker
-daemon. See `dockerd
-documentation <https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-socket-option>`__
-for more information.
-
-2. Security enhancement: dropping traffic from ECS containers to docker
-   daemon.
-
-   ::
-
-       iptables --insert INPUT 1 \
-                --in-interface docker+ \
-                --protocol tcp \
-                --destination-port MYDOCKERPORT \
-                --jump DROP
 
 Configs
 ^^^^^^^

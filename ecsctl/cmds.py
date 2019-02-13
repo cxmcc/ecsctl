@@ -5,10 +5,12 @@ from . import wrapboto
 from .config import read_config, update_config, default_config
 from . import display
 from .pty import Pty
+from .ssh import Ssh
 import tabulate
 import datetime
 import pytz
 import humanize
+import os
 from jsonpath import jsonpath as jp
 
 
@@ -194,6 +196,30 @@ def undrain(ctx, node, cluster):
     click.echo(resp['containerInstances'][0]['containerInstanceArn'])
 
 
+@cli.command(name='ssh', short_help='Execute a command in a container via ssh.')
+@click.option('--cluster')
+@click.option('--container', default=None)
+@click.option('--user', default=None)
+@click.option('--ssh-port', default=22, type=int)
+@click.argument('task', required=True)
+@click.argument('command')
+@click.pass_context
+def exec_command(ctx, task, command, cluster, ssh_port,
+                 container, user):
+    if not cluster:
+        cluster = ctx.obj['cluster']
+    if not ssh_port:
+        ssh_port = int(ctx.obj['ssh_port'])
+    if not user:
+        if 'ECS_USER' in os.environ:
+            user = os.environ.get('ECS_USER')
+        else:
+            user = os.environ.get('USER')
+    bw = ctx.obj['bw']
+    ssh = Ssh(bw=bw, task=task, command=command, cluster=cluster,
+              port=ssh_port, user=user, container=container)
+    ssh.exec_command()
+
 @cli.command(name='exec', short_help='Execute a command in a container.')
 @click.option('--cluster')
 @click.option('-i', '--stdin', is_flag=True, default=False, show_default=True)
@@ -359,17 +385,16 @@ def get_task_definition(ctx, status, family_prefix):
         click.echo(out)
 
 
-@cli.command(short_help='Run a particular image on the cluster.')
-@click.option('--image', required=True)
+@cli.command(short_help='Run a particular task definition on the cluster.')
+@click.option('--task-definition', required=True)
 @click.option('--cluster')
 @click.argument('command', nargs=-1, required=False)
-@click.argument('name')
 @click.pass_context
-def run(ctx, name, image, cluster, command):
+def run(ctx, task_definition, cluster, command):
     if not cluster:
         cluster = ctx.obj['cluster']
     bw = ctx.obj['bw']
-    bw.run(name=name, cluster=cluster, image=image, command=command)
+    task_arn = bw.run(cluster=cluster, task_definition=task_definition)
 
 
 @cli.command(short_help='Set a new size for a service')

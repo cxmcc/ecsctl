@@ -12,6 +12,7 @@ install_requires = [
     'tabulate>=0.7.7',
     'humanize>=0.5.1',
     'pytz>=2017.2',
+    'shell_command>=0.1',
 ]
 
 classifiers = [
@@ -25,7 +26,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='ecsctl',
-    version='20170909',
+    version='20190213',
     description='kubectl-style command line client for AWS ECS.',
     long_description=long_description,
     author='Xiuming Chen',
