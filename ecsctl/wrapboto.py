@@ -186,7 +186,7 @@ class BotoWrapper:
         print task_def_arn
         overrides = {
                 'containerOverrides': [
-                    {
+                    {   'cpu': 100,
                         'name': name,
                         'command': [
                             'sleep', '43200'
@@ -202,7 +202,7 @@ class BotoWrapper:
         )
         if not resp['tasks']:
             raise Exception('Cant run task. Not enough resources in cluster?')
-        print resp['tasks'][0]['taskArn']
+        return resp['tasks'][0]['taskArn']
 
     def stop_task(self, task, cluster='default',
                   reason='Stopped with ecsctl.'):

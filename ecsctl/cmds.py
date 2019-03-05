@@ -11,6 +11,7 @@ import datetime
 import pytz
 import humanize
 import os
+import time
 from jsonpath import jsonpath as jp
 
 
@@ -204,7 +205,7 @@ def undrain(ctx, node, cluster):
 @click.argument('task', required=True)
 @click.argument('command')
 @click.pass_context
-def exec_command(ctx, task, command, cluster, ssh_port,
+def ssh_command(ctx, task, command, cluster, ssh_port,
                  container, user):
     if not cluster:
         cluster = ctx.obj['cluster']
@@ -388,13 +389,28 @@ def get_task_definition(ctx, status, family_prefix):
 @cli.command(short_help='Run a particular task definition on the cluster.')
 @click.option('--task-definition', required=True)
 @click.option('--cluster')
-@click.argument('command', nargs=-1, required=False)
+@click.option('--container', default=None)
+@click.option('--user', default=None)
+@click.option('--ssh-port', default=22, type=int)
+@click.argument('command')
 @click.pass_context
-def run(ctx, task_definition, cluster, command):
+def run(ctx, task_definition, cluster, command, ssh_port, container, user):
     if not cluster:
         cluster = ctx.obj['cluster']
+    if not ssh_port:
+        ssh_port = int(ctx.obj['ssh_port'])
+    if not user:
+        if 'ECS_USER' in os.environ:
+            user = os.environ.get('ECS_USER')
+        else:
+            user = os.environ.get('USER')
     bw = ctx.obj['bw']
     task_arn = bw.run(cluster=cluster, task_definition=task_definition)
+    print 'Got task ARN. Wait 30 sec for task to start'
+    time.sleep(30)
+    ssh = Ssh(bw=bw, task=task_arn, command=command, cluster=cluster,
+              port=ssh_port, user=user, container=container)
+    ssh.exec_command()
 
 
 @cli.command(short_help='Set a new size for a service')
