@@ -183,7 +183,7 @@ class BotoWrapper:
         )
         task_def_arn = resp['taskDefinition']['taskDefinitionArn']
         name = resp['taskDefinition']['containerDefinitions'][0]['name']
-        print task_def_arn
+        print(task_def_arn)
         overrides = {
                 'containerOverrides': [
                     {   'cpu': 100,

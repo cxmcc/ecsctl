@@ -406,7 +406,7 @@ def run(ctx, task_definition, cluster, command, ssh_port, container, user):
             user = os.environ.get('USER')
     bw = ctx.obj['bw']
     task_arn = bw.run(cluster=cluster, task_definition=task_definition)
-    print 'Got task ARN. Wait 30 sec for task to start'
+    print('Got task ARN. Wait 30 sec for task to start')
     time.sleep(30)
     ssh = Ssh(bw=bw, task=task_arn, command=command, cluster=cluster,
               port=ssh_port, user=user, container=container)

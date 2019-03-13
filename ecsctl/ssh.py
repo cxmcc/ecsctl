@@ -36,5 +36,5 @@ class Ssh:
             container = self.container
         ssh = 'ssh -tt -p %d %s@%s sudo docker exec -it \$\(sudo docker ps -q %s\) %s' % (self.port, self.user,
                 hostname, self.filter_string(container), self.command)
-        #print ssh
+        #print(ssh)
         shell_call(ssh)
