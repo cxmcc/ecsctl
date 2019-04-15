@@ -13,7 +13,7 @@ kubectl-style command line tool for AWS EC2 Container Service (ECS)
 Installation
 ------------
 
-Download latest release ecsctl-<VERSION>.tar.gz.
+Download latest release ecsctl-<VERSION>.tar.gz from https://github.com/verbit-ai/ecsctl/releases
 
 .. code:: bash
 
