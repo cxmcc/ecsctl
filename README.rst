@@ -13,9 +13,11 @@ kubectl-style command line tool for AWS EC2 Container Service (ECS)
 Installation
 ------------
 
+Download latest release ecsctl-<VERSION>.tar.gz.
+
 .. code:: bash
 
-    pip install ecsctl
+    pip install ecsctl-<VERSION>.tar.gz
 
 Purpose
 -------
@@ -37,6 +39,10 @@ Some AWS official projects to check out:
 
 Usage
 -----
+User
+^^^^^^^
+
+Set `ECS_USER` var to be the same as your ssh user name.
 
 Cluster
 ^^^^^^^
@@ -123,7 +129,7 @@ Run container quick start
     NAME             TASK DEFINITION      DESIRED    RUNNING  STATUS    AGE
     mycontainer-svc  mycontainer:1              1          0  ACTIVE    10 seconds ago
 
-Run docker exec on containers (Requires customizing docker daemon to listen on internal addresses)
+Run commands inside tasks
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
