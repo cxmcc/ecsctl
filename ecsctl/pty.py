@@ -21,6 +21,8 @@ class Pty:
         info = self.bw.describe_task(self.task, cluster=self.cluster)
         ecs_containers = info['containers']
         first_container_name = ecs_containers[0]['name']
+        if info['launchType'] == 'FARGATE':
+            raise Exception('"exec" does not work with FARGATE.')
         container_instance = info['containerInstanceArn']
         node_info = self.bw.describe_container_instance(
             container_instance,
