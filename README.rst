@@ -19,6 +19,8 @@ Download latest release ecsctl-<VERSION>.tar.gz from https://github.com/verbit-a
 
     pip install ecsctl-<VERSION>.tar.gz --user --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
 
+Please make sure you have the pip packages directory (usually "$HOME/Library/Python/2.7/bin/") in your "$PATH".
+
 ecscli
 ------
 Gives you some shortcuts for running common ecsctl commands for current project (based on the folder name)!
