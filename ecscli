@@ -98,8 +98,8 @@ elif [ "$COMMAND" == "run" ]; then
   stop_ecs_task $CLUSTER $TASK_ID
 else
   echo "Usage:"
-  echo "  awsecs qa ps                     - list of active tasks"
-  echo "  awsecs qa ssh task_id [command]  - ssh to one of the running tasks"
-  echo "  awsecs qa run [command]          - creates one-off task and ssh to it"
+  echo "  ecscli qa ps                     - list of active tasks"
+  echo "  ecscli qa ssh task_id [command]  - ssh to one of the running tasks"
+  echo "  ecscli qa run [command]          - creates one-off task and ssh to it"
   exit 1
 fi
