@@ -22,11 +22,24 @@ Download latest release ecsctl-<VERSION>.tar.gz from https://github.com/verbit-a
 ecscli
 ------
 Gives you some shortcuts for running common ecsctl commands for current project (based on the folder name)!
+
 .. code:: bash
 
     ecscli qa ps
+
+
+.. code:: bash
+
     ecscli qa2 ssh verbit-qa-services/306ba8395ab742bfaa6064502f89e965
+
+
+.. code:: bash
+
     ecscli prod stop verbit-qa-services/306ba8395ab742bfaa6064502f89e965
+
+
+.. code:: bash
+
     ecscli qa run rake db:migrate
 
 
