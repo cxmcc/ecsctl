@@ -1,0 +1,105 @@
+#/bin/bash
+
+# Functions
+# detects ECS cluster name by env provided
+cluster_name()
+{
+  local ENV=$1
+  if [[ $ENV =~ "qa" ]]; then # qa2 is also there
+    echo 'verbit-qa-services'
+  elif [[ $ENV =~ "prod" ]]; then
+    echo 'verbit-prod-services'
+  else
+    echo "Unknown env ${ENV} - options are qa|qa2|prod"
+    exit 1
+  fi
+}
+
+# detects application name by the path
+app_name()
+{
+  local PWD=$1
+  if [[ $PWD =~ "verbatizer" ]]; then
+    echo "verbatizer"
+  elif [[ $PWD =~ "verbit_speech_api" ]]; then
+    echo "speech-api"
+  else
+    echo "Unknown app"
+    exit 1
+  fi
+}
+
+# Show list of active tasks running
+display_running_tasks()
+{
+  CLUSTER=$1
+  APP_NAME=$2
+  ENV=$3
+  set -e
+  ecsctl get tasks --cluster=$CLUSTER | grep -i $APP_NAME | grep -i "\-$ENV:"
+  set +e
+}
+
+# ssh to the task by it's id
+# args: cluster task_id commands
+ssh_to_task()
+{
+  CLUSTER=$1
+  TASK_ID=$2
+  shift
+  shift
+  COMMANDS=$@
+  COMMANDS=${COMMANDS:-bash}
+  echo "ecsctl ssh $TASK_ID --cluster=$CLUSTER \"$COMMANDS\""
+  ecsctl ssh $TASK_ID --cluster=$CLUSTER "$COMMANDS"
+}
+
+# stop the task by it's id
+# args: cluster task_id commands
+stop_ecs_task()
+{
+  CLUSTER=$1
+  TASK_ID=$2
+  ecsctl stop task $TASK_ID --cluster=$CLUSTER
+}
+
+# starts a ecs task and returns it's id
+start_ecs_task()
+{
+  CLUSTER=$1
+  APP_NAME=$2
+  ENV=$3
+  echo $(ecsctl run oneoff --task-definition $APP_NAME-$ENV --cluster=$CLUSTER | tail -1)
+  sleep 5
+}
+
+
+# Script
+
+ENV=$1
+COMMAND=$2
+CLUSTER=$(cluster_name "$ENV")
+APP_NAME=$(app_name $(pwd))
+
+# First to args are always env and command
+shift
+shift
+
+if [ "$COMMAND" == "ps" ]; then
+  display_running_tasks $CLUSTER $APP_NAME $ENV
+elif [ "$COMMAND" == "ssh" ]; then
+  ssh_to_task $CLUSTER $@
+elif [ "$COMMAND" == "stop" ]; then
+  TASK_ID=$1
+  stop_ecs_task $CLUSTER $1
+elif [ "$COMMAND" == "run" ]; then
+  TASK_ID=$(start_ecs_task $CLUSTER $APP_NAME $ENV)
+  ssh_to_task $CLUSTER $TASK_ID $@
+  stop_ecs_task $CLUSTER $TASK_ID
+else
+  echo "Usage:"
+  echo "  ecscli qa ps                     - list of active tasks"
+  echo "  ecscli qa ssh task_id [command]  - ssh to one of the running tasks"
+  echo "  ecscli qa run [command]          - creates one-off task and ssh to it"
+  exit 1
+fi

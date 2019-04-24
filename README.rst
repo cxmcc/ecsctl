@@ -17,7 +17,18 @@ Download latest release ecsctl-<VERSION>.tar.gz from https://github.com/verbit-a
 
 .. code:: bash
 
-    pip install ecsctl-<VERSION>.tar.gz
+    pip install ecsctl-<VERSION>.tar.gz --user --trusted-host=pypi.python.org --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
+
+ecscli
+------
+Gives you some shortcuts for running common ecsctl commands for current project (based on the folder name)!
+.. code:: bash
+
+    ecscli qa ps
+    ecscli qa2 ssh verbit-qa-services/306ba8395ab742bfaa6064502f89e965
+    ecscli prod stop verbit-qa-services/306ba8395ab742bfaa6064502f89e965
+    ecscli qa run rake db:migrate
+
 
 Purpose
 -------
