@@ -74,7 +74,8 @@ start_ecs_task()
   shift
   COMMANDS=$@
   COMMANDS=${COMMANDS:-bash}
-  echo $(ecsctl run --task-definition $APP_NAME-$ENV --cluster=$CLUSTER "$COMMANDS" | tail -1)
+  echo "ecsctl run --task-definition $APP_NAME-$ENV --cluster=$CLUSTER \"$COMMANDS\""
+  ecsctl run --task-definition $APP_NAME-$ENV --cluster=$CLUSTER "$COMMANDS"
   sleep 5
 }
 
