@@ -69,7 +69,12 @@ start_ecs_task()
   CLUSTER=$1
   APP_NAME=$2
   ENV=$3
-  echo $(ecsctl run oneoff --task-definition $APP_NAME-$ENV --cluster=$CLUSTER | tail -1)
+  shift
+  shift
+  shift
+  COMMANDS=$@
+  COMMANDS=${COMMANDS:-bash}
+  echo $(ecsctl run --task-definition $APP_NAME-$ENV --cluster=$CLUSTER "$COMMANDS" | tail -1)
   sleep 5
 }
 
@@ -93,9 +98,7 @@ elif [ "$COMMAND" == "stop" ]; then
   TASK_ID=$1
   stop_ecs_task $CLUSTER $1
 elif [ "$COMMAND" == "run" ]; then
-  TASK_ID=$(start_ecs_task $CLUSTER $APP_NAME $ENV)
-  ssh_to_task $CLUSTER $TASK_ID $@
-  stop_ecs_task $CLUSTER $TASK_ID
+  start_ecs_task $CLUSTER $APP_NAME $ENV $@
 else
   echo "Usage:"
   echo "  ecscli qa ps                     - list of active tasks"
