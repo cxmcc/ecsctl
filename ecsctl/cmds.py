@@ -345,7 +345,7 @@ def get_task(ctx, cluster, sort_by):
     for r in records:
         status = r['lastStatus']
         created_at = r['createdAt']
-        task_id = display.simple_task(r['taskArn'])
+        task_id = r['taskArn']
         task_def = display.simple_task_definition(r['taskDefinitionArn'])
         age = humanize.naturaltime(now - created_at)
         row = (task_id, status, task_def, age)
