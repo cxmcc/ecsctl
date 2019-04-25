@@ -160,15 +160,20 @@ Run commands inside tasks
 
 ::
 
-    % ecsctl get tasks
-    TASK ID                               STATUS    TASK DEFINITION    AGE
-    42f052c4-80e9-411d-bea2-407b0b4a4b0b  PENDING   mycontainer:1      2 minutes ago
+    % ecsctl get tasks --cluster=verbit-qa-services
+    TASK ID                                                                                        STATUS    TASK DEFINITION                             AGE
+    arn:aws:ecs:eu-west-1:132948732473:task/verbit-qa-services/09beb4b9653a4a00987fede63eafbda1  RUNNING   verbatizer-qa2:25                          2 hours ago
 
-    % ecsctl ssh 42f052c4-80e9-411d-bea2-407b0b4a4b0b date
-    Fri May 26 00:13:24 PDT 2017
 
-    % ecsctl ssh 42f052c4-80e9-411d-bea2-407b0b4a4b0b /bin/bash
-    root@container:/# (interactive)
+    % ecsctl ssh  arn:aws:ecs:eu-west-1:132948732473:task/verbit-qa-services/09beb4b9653a4a00987fede63eafbda1 --cluster=verbit-qa-services date
+    Warning: Permanently added '172.16.2.211' (ECDSA) to the list of known hosts.
+    Thu Apr 25 12:39:01 UTC 2019
+    Connection to 172.16.2.211 closed.
+
+    % ecsctl ssh  arn:aws:ecs:eu-west-1:132948732473:task/verbit-qa-services/09beb4b9653a4a00987fede63eafbda1 --cluster=verbit-qa-services bash
+    Warning: Permanently added '172.16.2.211' (ECDSA) to the list of known hosts.
+    root@a3f1743c0113:/app#
+
 
 Configs
 ^^^^^^^
