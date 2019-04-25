@@ -34,7 +34,7 @@ class Ssh:
             container = first_container_name
         else:
             container = self.container
-        ssh = 'ssh -tt -p %d %s@%s sudo docker exec -it \$\(sudo docker ps -q %s\) %s' % (self.port, self.user,
-                hostname, self.filter_string(self.task), self.command)
+        ssh = 'ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -tt -p %d %s@%s sudo docker exec -it \$\(sudo docker ps -q %s\) %s' % (
+            self.port, self.user, hostname, self.filter_string(self.task), self.command)
         #print(ssh)
         shell_call(ssh)
