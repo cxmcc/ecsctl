@@ -25,8 +25,8 @@ class Ssh:
         ec2_info = self.bw.describe_instance(ec2_instance_id)
         return first_container_name, ec2_info['PrivateIpAddress']
 
-    def filter_string(self,task_arn):
-        return '--filter "label=com.amazonaws.ecs.task-arn=%s"' % (task_arn)
+    def filter_string(self, task_arn, container):
+        return '--filter "label=com.amazonaws.ecs.task-arn=%s" --filter "label=com.amazonaws.ecs.container-name=%s"' % (task_arn, container)
 
     def exec_command(self):
         first_container_name, hostname = self.get_ecs_hostname_of_task()
@@ -35,6 +35,6 @@ class Ssh:
         else:
             container = self.container
         ssh = 'ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -tt -p %d %s@%s sudo docker exec -it \$\(sudo docker ps -q %s\) %s' % (
-            self.port, self.user, hostname, self.filter_string(self.task), self.command)
+            self.port, self.user, hostname, self.filter_string(self.task, container), self.command)
         #print(ssh)
         shell_call(ssh)
