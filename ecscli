@@ -23,6 +23,8 @@ app_name()
     echo "verbatizer"
   elif [[ $PWD =~ "verbit_speech_api" ]]; then
     echo "speech-api"
+  elif [[ $PWD =~ "trm_converter" ]]; then
+    echo "trm-converter"
   else
     echo "Unknown app"
     exit 1
