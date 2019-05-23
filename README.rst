@@ -70,6 +70,10 @@ User
 
 Set `ECS_USER` var to be the same as your ssh user name.
 
+.. code:: bash
+    export ECS_USER=<VPN_USERNAME>
+
+
 Cluster
 ^^^^^^^
 
