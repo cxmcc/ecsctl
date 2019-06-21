@@ -189,7 +189,7 @@ class BotoWrapper:
                     {   'cpu': 100,
                         'name': name,
                         'command': [
-                            'sleep', '43200'
+                            'sleep', '7200'
                             ]
                         }
                     ]

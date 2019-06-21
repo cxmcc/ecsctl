@@ -26,7 +26,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='ecsctl',
-    version='20190425-3',
+    version='20190621',
     scripts=['ecscli'],
     description='kubectl-style command line client for AWS ECS.',
     long_description=long_description,
