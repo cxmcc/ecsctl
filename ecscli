@@ -113,7 +113,7 @@ start_ecs_task()
 # Script
 
 ENV=$(env_name "$1")
-AWS_DEFAULT_REGION=$(region "$1")
+export AWS_DEFAULT_REGION=$(region "$1")
 COMMAND=$2
 CLUSTER=$(cluster_name "$ENV")
 APP_NAME=$(app_name $(pwd))
