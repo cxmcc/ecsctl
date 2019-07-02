@@ -15,6 +15,34 @@ cluster_name()
   fi
 }
 
+env_name()
+{
+  local ENV=$1
+  if [[ $ENV =~ "qa2" ]]; then
+    echo 'qa2'
+  elif [[ $ENV =~ "qa" ]]; then
+    echo 'qa'
+  elif [[ $ENV =~ "prod" ]]; then
+    echo 'prod'
+  else
+    echo "Unknown env ${ENV} - options are qa|qa2|prod"
+    exit 1
+  fi
+}
+
+region()
+{
+  local ENV=$1
+  if [[ $ENV =~ "-eu" ]] || [[ $ENV = "qa" ]] || [[ $ENV = "qa2" ]]; then # qa are in EU by default
+    echo 'eu-west-1'
+  elif [[ $ENV =~ "-us" ]] || [[ $ENV = "prod" ]]; then # prod is in US by default
+    echo 'us-east-1'
+  else
+    echo "Unknown env ${ENV} - options are qa|qa2|prod"
+    exit 1
+  fi
+}
+
 # detects application name by the path
 app_name()
 {
@@ -84,7 +112,8 @@ start_ecs_task()
 
 # Script
 
-ENV=$1
+ENV=$(env_name "$1")
+AWS_DEFAULT_REGION=$(region "$1")
 COMMAND=$2
 CLUSTER=$(cluster_name "$ENV")
 APP_NAME=$(app_name $(pwd))
@@ -107,5 +136,6 @@ else
   echo "  ecscli qa ps                     - list of active tasks"
   echo "  ecscli qa ssh task_id [command]  - ssh to one of the running tasks"
   echo "  ecscli qa run [command]          - creates one-off task and ssh to it"
+  echo "  ecscli prod-eu ps                - use -us & -eu suffix to specify non-default region"
   exit 1
 fi
