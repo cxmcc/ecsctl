@@ -406,11 +406,19 @@ def run(ctx, task_definition, cluster, command, ssh_port, container, user):
             user = os.environ.get('USER')
     bw = ctx.obj['bw']
     task_arn = bw.run(cluster=cluster, task_definition=task_definition)
-    print('Got task ARN. Wait 30 sec for task to start')
-    time.sleep(30)
-    ssh = Ssh(bw=bw, task=task_arn, command=command, cluster=cluster,
-              port=ssh_port, user=user, container=container)
-    ssh.exec_command()
+    print(f'Started task with arn: {task_arn}')
+    started_at = time.time()
+    while True:
+        time.sleep(1)
+        ssh = Ssh(bw=bw, task=task_arn, command=command, cluster=cluster,
+                  port=ssh_port, user=user, container=container)
+        ssh.exec_command()
+
+        if time.time() - started_at < 30:
+            print('Failed to connect to container, retrying')
+        else:
+            bw.stop_task(task_arn, cluster=cluster, reason='Finished processing')
+            break
 
 
 @cli.command(short_help='Set a new size for a service')
