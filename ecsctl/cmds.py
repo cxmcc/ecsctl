@@ -406,7 +406,7 @@ def run(ctx, task_definition, cluster, command, ssh_port, container, user):
             user = os.environ.get('USER')
     bw = ctx.obj['bw']
     task_arn = bw.run(cluster=cluster, task_definition=task_definition)
-    print(f'Started task with arn: {task_arn}')
+    print('Started task with arn: %s' % task_arn)
     started_at = time.time()
     while True:
         time.sleep(1)
