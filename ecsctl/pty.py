@@ -20,6 +20,7 @@ class Pty:
     def get_ecs_hostname_of_task(self):
         info = self.bw.describe_task(self.task, cluster=self.cluster)
         ecs_containers = info['containers']
+        ecs_containers_id = ecs_containers[0]['runtimeId']
         first_container_name = ecs_containers[0]['name']
         if info['launchType'] == 'FARGATE':
             raise Exception('"exec" does not work with FARGATE.')
@@ -30,7 +31,7 @@ class Pty:
         )
         ec2_instance_id = node_info['ec2InstanceId']
         ec2_info = self.bw.describe_instance(ec2_instance_id)
-        return first_container_name, ec2_info['PrivateIpAddress']
+        return first_container_name, ec2_info['PrivateIpAddress'], ecs_containers_id
 
     def find_container_id(self, client, container_name):
         containers = client.containers()
@@ -45,17 +46,15 @@ class Pty:
             raise Exception('container not found.')
 
     def exec_command(self):
-        first_container_name, hostname = self.get_ecs_hostname_of_task()
-        if self.container is None:
-            container = first_container_name
-        else:
-            container = self.container
+        first_container_name, hostname, container_id = self.get_ecs_hostname_of_task()
         docker_url = '%s:%d' % (hostname, self.port)
         client = docker.APIClient(
             docker_url,
             version=self.api_version,
         )
-        container_id = self.find_container_id(client, container)
+        if self.container is not None:
+            container = self.container
+            container_id = self.find_container_id(client, container)
         resp = client.exec_create(
             container_id, self.command, stdin=self.stdin, tty=self.tty
         )
