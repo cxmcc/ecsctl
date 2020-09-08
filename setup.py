@@ -25,9 +25,10 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='ecsctl',
-    version='20190417',
+    version='20200907',
     description='kubectl-style command line client for AWS ECS.',
     long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='Xiuming Chen',
     author_email='cc@cxm.cc',
     url='https://github.com/cxmcc/ecsctl',
