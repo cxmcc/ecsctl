@@ -141,6 +141,8 @@ Run docker exec on containers (Requires customizing docker daemon to listen on i
 Configure docker daemon to allow ``ecsctl exec``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+NOTE: this does not work with ECS Fargate.
+
 1. Let docker daemon listen on TCP ports (required)
 
 Add options like ``-H tcp://0.0.0.0:MYDOCKERPORT`` or environment
