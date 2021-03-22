@@ -54,7 +54,7 @@ app_name()
   elif [[ $PWD =~ "trm_converter" ]]; then
     echo "trm-converter"
   else
-    echo "Unknown app"
+    >&2 echo "Unknown app please run the command from repo directory [verbatizer, verbit_speech_api, trm_converter]"
     exit 1
   fi
 }
